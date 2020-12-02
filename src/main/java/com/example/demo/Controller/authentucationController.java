@@ -24,7 +24,7 @@ public class authentucationController {
 		return authService.login(logForm);
 	}
 
-	@GetMapping("/user")
+	@GetMapping("/suprimer")
 
 	public String userconecte()
 
@@ -32,7 +32,7 @@ public class authentucationController {
 
 		return "get";
 	}
-	@GetMapping("/suprimer")
+	@GetMapping("/user")
 
 	public String sup()
 
