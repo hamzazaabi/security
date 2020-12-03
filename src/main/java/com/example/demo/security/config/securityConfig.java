@@ -1,6 +1,5 @@
 package com.example.demo.security.config;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,13 +20,13 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
 	private MyuserdetailsService userDetailsService;
 	@Autowired
 	private com.example.demo.securityFilter.TokenFilter TokenFilter;
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// TODO Auto-generated method stub
 		auth.userDetailsService(userDetailsService);
 	}
 
-	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		// TODO Auto-generated method stub
@@ -46,14 +45,13 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
 		// TODO Auto-generated method stub
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		http.authorizeRequests().antMatchers("/auth").permitAll()
-								.antMatchers("/ajouter","/user").hasAuthority("ADMIN")
-								.antMatchers("/suprimer").hasAuthority( "USER")
-								.anyRequest().authenticated();
-		
+		http.authorizeRequests()
+				.antMatchers("/api/auth", "/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**")
+				.permitAll().antMatchers("/api/ajouter", "/api/user").hasAuthority("ADMIN").antMatchers("/api/suprimer")
+				.hasAuthority("USER").anyRequest().authenticated();
+
 		http.addFilterBefore(TokenFilter, UsernamePasswordAuthenticationFilter.class);
 
- 
 	}
 
 }
